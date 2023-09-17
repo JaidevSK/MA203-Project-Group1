@@ -40,9 +40,39 @@ def lu_decomposition(matrix):
 
     return lower, upper
 
-# Example usage
-matrix = np.array([[1, -2, -2, -3], [3, -9, 0, -9], [-1, 2, 4, 7], [-3, -6, 26, 2]])
-lower, upper = lu_decomposition(matrix)
+def forward_substitution(L, b):
+    n = len(L)
+    y = np.zeros(n)
+
+    for i in range(n):
+        y[i] = b[i]
+        for j in range(i):
+            y[i] -= L[i][j] * y[j]
+        y[i] /= L[i][i]
+
+    return y
+
+def backward_substitution(U, y):
+    n = len(U)
+    x = np.zeros(n)
+
+    for i in range(n - 1, -1, -1):
+        x[i] = y[i]
+        for j in range(i + 1, n):
+            x[i] -= U[i][j] * x[j]
+        x[i] /= U[i][i]
+
+    return x
+
+A = np.array([[3, 3, -8, -2], [-8, -4, 8, 4], [-6, 2, 9, -1], [-2, -7, 1, -10]])
+b = np.array([-60, 36, 42, -33])
+
+L, U = lu_decomposition(A)
+y = forward_substitution(L, b)
+x = backward_substitution(U, y)
+
+print("Solution:", x)
+
 
 
 
