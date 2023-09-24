@@ -67,11 +67,12 @@ def backward_substitution(U, y):
 A = np.array([[3, 3, -8, -2], [-8, -4, 8, 4], [-6, 2, 9, -1], [-2, -7, 1, -10]])
 b = np.array([-60, 36, 42, -33])
 
-L, U = lu_decomposition(A)
-y = forward_substitution(L, b)
-x = backward_substitution(U, y)
+# L, U = lu_decomposition(A)
+# y = forward_substitution(L, b)
+# x = backward_substitution(U, y)
+# print("Solution:", x)
 
-print("Solution:", x)
+#########################################################################################################################################################
 
 
 # Parameters
@@ -172,7 +173,66 @@ def shooting_for_temp_distri_in_heatpipe(h, Ta, T0, Tf, x0, xfinal, delta_x, z01
     return T
 
 
+
+#####################################################################################################################################
+
+
+def generate_temperature_matrix(n, T0, T1, T):
+    # Create the A matrix
+    A = np.zeros((n**2, n**2))
+    # Create the B matrix
+    B = np.zeros(n**2)
+
+    # Iterate over each point in the square plate
+    for i in range(n):
+        for j in range(n):
+            index = i * n + j
+
+            # Set the diagonal element in A matrix
+            A[index, index] = 4
+
+            # Set the elements for the surrounding points
+            if i > 0:
+                A[index, (i-1) * n + j] = -1
+            if i < n-1:
+                A[index, (i+1) * n + j] = -1
+            if j > 0:
+                A[index, i * n + (j-1)] = -1
+            if j < n-1:
+                A[index, i * n + (j+1)] = -1
+
+            # Set the corresponding element in B matrix
+            if i == 0:
+                B[index] += T0
+            if i == n-1:
+                B[index] += T1
+            if j == 0:
+                B[index] += T[index]
+            if j == n-1:
+                B[index] += T[index]
+
+    # Solve the system of equations Ax = B
+
+    return A, B
+
 T_pipe=shooting_for_temp_distri_in_heatpipe(h, Ta, T0, Tf, x0, xfinal, delta_x, z01, z02)
+for i in range(len(T_pipe)):
+  for j in range(len(T_pipe)):
+    lis.append(T_pipe[i])
+T=lis
+
+n = 3
+T0 = 100
+T1 = 200
+
+
+A, B = generate_temperature_matrix(n, T0, T1, T)
+L, U = lu_decomposition(A)
+y = forward_substitution(L, B)
+x = backward_substitution(U, y)
+print("Solution:", x)
+
+
 
 
 st.header("MA 203 Project Group 1")
