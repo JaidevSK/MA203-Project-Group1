@@ -15,6 +15,10 @@ import plotly.express as ex
 import plotly.graph_objects as go
 
 
+
+
+
+## Solving the System using LU Decomposition
 def lu_decomposition(matrix):
     n = len(matrix)
     lower = np.zeros((n, n))
@@ -64,119 +68,8 @@ def backward_substitution(U, y):
 
     return x
 
-A = np.array([[3, 3, -8, -2], [-8, -4, 8, 4], [-6, 2, 9, -1], [-2, -7, 1, -10]])
-b = np.array([-60, 36, 42, -33])
 
-# L, U = lu_decomposition(A)
-# y = forward_substitution(L, b)
-# x = backward_substitution(U, y)
-# print("Solution:", x)
-
-#########################################################################################################################################################
-
-
-# Parameters
-h = 0.01
-Ta = 20
-
-# Initial conditions
-T0 = 40
-Tf = 200
-
-# Time duration and time step
-x0 = 0
-xfinal = 10
-delta_x = 0.1
-
-z01 = 10
-z02 = 20
-
-
-def shooting_for_temp_distri_in_heatpipe(h, Ta, T0, Tf, x0, xfinal, delta_x, z01, z02):
-
-    # Number of time steps
-    num_steps = int((xfinal - x0) / delta_x + 1)
-
-    # Initialize arrays to store results
-    T_final = [0, 0]
-    z_final = [0, 0]
-
-
-    z = [0] * num_steps
-    T = [0] * num_steps
-    z[0] = z01
-    T[0] = T0
-    x = [0] * num_steps
-    # Midpoint method
-    for i in range(1, num_steps):
-        # Update time
-        x[i] = x[i-1] + delta_x
-        # Predict using Euler's method
-        z_pred = z[i-1] + delta_x * (h*(T[i-1]-Ta))
-        T_pred = T[i-1] + delta_x * (z[i-1])
-
-        # Correct using Heun's method
-        z[i] = z[i-1] + 0.5 * delta_x * (h*(T[i-1]-Ta) + h*(T_pred-Ta))
-        T[i] = T[i-1] + 0.5 * delta_x * (z[i-1]+z_pred)
-    T_final[j] = T[-1]
-    z_final[j] = z01
-    true_guess = z_final[0] + ((z_final[1] - z_final[0])/(T_final[1]- T_final[0]))*(Tf - T_final[0])
-
-    z = [0] * num_steps
-    T = [0] * num_steps
-    z[0] = z02
-    T[0] = T0
-    x = [0] * num_steps
-    # Midpoint method
-    for i in range(1, num_steps):
-        # Update time
-        x[i] = x[i-1] + delta_x
-        # Predict using Euler's method
-        z_pred = z[i-1] + delta_x * (h*(T[i-1]-Ta))
-        T_pred = T[i-1] + delta_x * (z[i-1])
-
-        # Correct using Heun's method
-        z[i] = z[i-1] + 0.5 * delta_x * (h*(T[i-1]-Ta) + h*(T_pred-Ta))
-        T[i] = T[i-1] + 0.5 * delta_x * (z[i-1]+z_pred)
-    T_final[j] = T[-1]
-    z_final[j] = z02
-
-
-    z = [0] * num_steps
-    z[0] = true_guess
-    T = [0] * num_steps
-    T[0] = T0
-    x = [0] * num_steps
-
-    print('actual initial value of z, hopefully =', z[0])
-    for i in range(1, num_steps):
-        # Update time
-        x[i] = x[i-1] + delta_x
-        # Predict using Euler's method
-        z_pred = z[i-1] + delta_x * (h*(T[i-1]-Ta))
-        T_pred = T[i-1] + delta_x * (z[i-1])
-        
-        # Correct using Heun's method
-        z[i] = z[i-1] + 0.5 * delta_x * (h*(T[i-1]-Ta) + h*(T_pred-Ta))
-        T[i] = T[i-1] + 0.5 * delta_x * (z[i-1]+z_pred)
-    # print(T[-1])
-
-    # # Plot the results
-    # import matplotlib.pyplot as plt
-
-    # plt.plot(x, T, 'b-')
-    # plt.xlabel('distance(m)')
-    # plt.ylabel('Temp. (K)')
-    # plt.title('Temp. vs position in a rod (Shooting Method)')
-    # plt.grid(True)
-    # plt.show()
-    return T
-
-
-
-#####################################################################################################################################
-
-
+### Code to generate temperature matrix A, B
 def generate_temperature_matrix(n, T0, T1, T):
     # Create the A matrix
     A = np.zeros((n**2, n**2))
@@ -215,32 +108,164 @@ def generate_temperature_matrix(n, T0, T1, T):
 
     return A, B
 
-T_pipe=shooting_for_temp_distri_in_heatpipe(h, Ta, T0, Tf, x0, xfinal, delta_x, z01, z02)
-for i in range(len(T_pipe)):
-  for j in range(len(T_pipe)):
-    lis.append(T_pipe[i])
-T=lis
+## Shooting method for generating the temp distri in surr
 
-n = 3
-T0 = 100
-T1 = 200
+def shooting_for_temp_distri_in_heatpipe(h, Ta, T0, Tf, x0, xfinal, delta_x, z01, z02,n):
 
+    # Number of position steps
+    num_steps = int((xfinal - x0) / delta_x + 1)
 
-A, B = generate_temperature_matrix(n, T0, T1, T)
-L, U = lu_decomposition(A)
-y = forward_substitution(L, B)
-x = backward_substitution(U, y)
-print("Solution:", x)
+    # Initialize arrays to store results
+    T_final = [0, 0]
+    z_final = [0, 0]
 
 
+    z = [0] * num_steps
+    T = [0] * num_steps
+    z[0] = z01
+    T[0] = T0
+    x = [0] * num_steps
+    # Midpoint method
+    for i in range(1, num_steps):
+        # Update position
+        x[i] = x[i-1] + delta_x
+        # Predict using Euler's method
+        z_pred = z[i-1] + delta_x * (h*(T[i-1]-Ta))
+        T_pred = T[i-1] + delta_x * (z[i-1])
 
+        # Correct using Heun's method
+        z[i] = z[i-1] + 0.5 * delta_x * (h*(T[i-1]-Ta) + h*(T_pred-Ta))
+        T[i] = T[i-1] + 0.5 * delta_x * (z[i-1]+z_pred)
+    T_final[0] = T[-1]
+    z_final[0] = z01
+    true_guess = z_final[0] + ((z_final[1] - z_final[0])/(T_final[1]- T_final[0]))*(Tf - T_final[0])
+
+    z = [0] * num_steps
+    T = [0] * num_steps
+    z[0] = z02
+    T[0] = T0
+    x = [0] * num_steps
+    # Midpoint method
+    for i in range(1, num_steps):
+        # Update position
+        x[i] = x[i-1] + delta_x
+        # Predict using Euler's method
+        z_pred = z[i-1] + delta_x * (h*(T[i-1]-Ta))
+        T_pred = T[i-1] + delta_x * (z[i-1])
+
+        # Correct using Heun's method
+        z[i] = z[i-1] + 0.5 * delta_x * (h*(T[i-1]-Ta) + h*(T_pred-Ta))
+        T[i] = T[i-1] + 0.5 * delta_x * (z[i-1]+z_pred)
+    T_final[1] = T[-1]
+    z_final[1] = z02
+
+
+    z = [0] * num_steps
+    z[0] = true_guess
+    T = [0] * num_steps
+    T[0] = T0
+    x = [0] * num_steps
+
+    # print('actual initial value of z, hopefully =', z[0])
+    for i in range(1, num_steps):
+        # Update position
+        x[i] = x[i-1] + delta_x
+        # Predict using Euler's method
+        z_pred = z[i-1] + delta_x * (h*(T[i-1]-Ta))
+        T_pred = T[i-1] + delta_x * (z[i-1])
+
+        # Correct using Heun's method
+        z[i] = z[i-1] + 0.5 * delta_x * (h*(T[i-1]-Ta) + h*(T_pred-Ta))
+        T[i] = T[i-1] + 0.5 * delta_x * (z[i-1]+z_pred)
+    # print(T[-1])
+
+    if n<=len(T):
+      step = len(T) // (n - 1)
+      sampled_T = [T[i] for i in range(0, len(T), step)]
+      # print(sampled_T)
+
+    sampled_T = np.array(sampled_T)
+    return sampled_T
+
+
+#########################################################################################################################################################
 
 st.header("MA 203 Project Group 1")
 st.title("Modelling the heating in an IC with multiple heat transfer mechanisms using Numerical Methods")
 st.sidebar.title("User Inputs")
 liquid_input = st.sidebar.slider("Input temperature of the Coolant", 0, 100, 50)
 liquid_output = st.sidebar.slider("Vaapour Temperature of the Coolant", 0, 100, 75)
-n = st.sidebar.radio("Number of Transistors in a row", [2,3,4,5,6])
-t = st.slider("Select the time duration", 0, 100)
 
-st.write(f"The value of time is {t},  the value of number of transistors is {n},  liquid_temp is {liquid_input} and {liquid_output}")
+
+# Parameters
+i= st.sidebar.slider("Select the current duration", 10, 20, step = 2)
+r = 20
+t = st.slider("Select the time duration", 1, 100)
+h = 0.01 # For water flowing in metal tubes (coefficient of heat transfer)
+Ta = st.sidebar.slider("Select the Surrounding Temperature", 15, 35)
+
+# Initial temp. conditions
+T0 = st.sidebar.slider("Select the Heatsink Temperature", 25, 35)
+Tf = i**2*r*t # At x = xfinal
+T1 = Tf
+
+# Pipe length and dist. intervals
+x0 = 0
+xfinal = 10
+delta_x = 0.1
+
+z01 = 10
+z02 = 20
+n = st.slider("Select the Number of transistors in a row", 3, 13, 3)
+
+###########################################################################################################################################################
+
+TTT = shooting_for_temp_distri_in_heatpipe(h, Ta, T0, Tf, x0, xfinal, delta_x, z01, z02, n)
+print(TTT)
+
+lis = []
+
+for i in range(len(TTT)):
+  for j in range(len(TTT)):
+    lis.append(TTT[i])
+T=lis
+
+A, B = generate_temperature_matrix(n, T0, T1, T)
+
+L, U = lu_decomposition(A)
+y = forward_substitution(L, B)
+x = backward_substitution(U, y)
+x= list(x)
+X = np.array(x).reshape((n,n))
+# print("Solution:", x)
+
+masterlist=[]
+lis = [T0]*(n+2)
+masterlist.append(np.array(lis))
+for i in range(len(TTT)):
+  a=TTT[i]
+  lis=list(X[i])
+  lis.insert(0, a)
+  lis.insert(len(TTT)+1, a)
+  masterlist.append(np.array(lis))
+
+lis = [Tf]*(n+2)
+masterlist.append(np.array(lis))
+# print(masterlist)
+
+import plotly.graph_objects as go
+import numpy as np
+
+# Example 2D NumPy array
+data = np.array(masterlist)
+
+heatmap_trace = go.Heatmap(z=data, colorscale = 'Hot')
+layout = go.Layout(title='Heatmap Plot', xaxis=dict(title='X-axis'), yaxis=dict(title='Y-axis'), width=800, height=800)
+fig = go.Figure(data=[heatmap_trace], layout=layout)
+st.plotly_chart(fig)
+
+
+
+
+#############################################################################################################################################################
+
