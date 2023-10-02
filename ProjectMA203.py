@@ -266,6 +266,14 @@ st.plotly_chart(fig)
 
 
 
-
+x, y = np.linspace(0, n, 0), np.linspace(0, n, 1)
+z = data
+fig1 = go.Figure(data=[go.Surface(z=z, x=x, y=y, colorscale='Temps')])
+fig1.update_layout(scene_aspectmode='manual',
+                  scene_aspectratio=dict(x=1, y=1, z=.1))
+fig1.update_traces(contours_z=dict(show=True, usecolormap=True,
+                                  highlightcolor="limegreen", project_z=True))
+fig1.show()
+st.plotly_chart(fig1)
 #############################################################################################################################################################
 
