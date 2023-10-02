@@ -216,7 +216,7 @@ delta_x = 0.1
 
 z01 = 10
 z02 = 20
-n = st.slider("Select the Number of transistors in a row", 3, 13, 3)
+n = st.slider("Select the Number of transistors in a row", 3, 17, 3)
 
 ###########################################################################################################################################################
 
