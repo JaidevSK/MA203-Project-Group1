@@ -198,8 +198,8 @@ liquid_output = st.sidebar.slider("Vaapour Temperature of the Coolant", 0, 100, 
 
 
 # Parameters
-i= st.sidebar.slider("Select the current duration", 10, 20, step = 2)
-r = 20
+i= st.sidebar.slider("Select the current Value", 0.1, 10, step = 0.1)
+r = st.sidebar.slider("Select the Resistance Value", 0.1, 100, step = 1)
 t = st.slider("Select the time duration", 1, 100)
 h = 0.01 # For water flowing in metal tubes (coefficient of heat transfer)
 Ta = st.sidebar.slider("Select the Surrounding Temperature", 15, 35)
