@@ -256,6 +256,7 @@ masterlist.append(np.array(lis))
 import plotly.graph_objects as go
 import numpy as np
 
+st.write("LU Decomposition")
 # Example 2D NumPy array
 data = np.array(masterlist)
 
@@ -265,7 +266,57 @@ fig = go.Figure(data=[heatmap_trace], layout=layout)
 st.plotly_chart(fig)
 
 
-
-
 #############################################################################################################################################################
+
+
+
+## Line by line solver, liebmann method
+
+import numpy as np
+
+def liebmann_method(A, B, initial_guess, max_iterations=100, tolerance=1e-6):
+    n = len(A)
+    X = initial_guess.copy()
+
+    for _ in range(max_iterations):
+        X_prev = X.copy()
+
+        for i in range(n):
+            X[i] = (B[i] - np.dot(A[i, :i], X[:i]) - np.dot(A[i, i+1:], X_prev[i+1:])) / A[i, i]
+
+        if np.linalg.norm(X - X_prev) < tolerance:
+            break
+
+    return X
+
+# Example usage
+
+initial_guess = np.zeros_like(B)
+
+solution = liebmann_method(A, B, initial_guess)
+
+
+x = list(solution)
+X = np.array(x).reshape((n,n))
+
+masterlist=[]
+lis = [T0]*(n+2)
+masterlist.append(np.array(lis))
+for i in range(len(TTT)):
+  a=TTT[i]
+  lis=list(X[i])
+  lis.insert(0, a)
+  lis.insert(len(TTT)+1, a)
+  masterlist.append(np.array(lis))
+
+st.write("Line by Line solver, using Gauss Siedel approach")
+lis = [Tf]*(n+2)
+masterlist.append(np.array(lis))
+# Example 2D NumPy array
+data = np.array(masterlist)
+
+heatmap_trace = go.Heatmap(z=data, colorscale='Bluered')
+layout = go.Layout(title='Heatmap Plot', xaxis=dict(title='X-axis'), yaxis=dict(title='Y-axis'), width=800, height=800)
+fig = go.Figure(data=[heatmap_trace], layout=layout)
+st.plotly_chart(fig)
 
