@@ -297,7 +297,7 @@ else:
     x, y = np.linspace(0, 1, sh_0), np.linspace(0, 1, sh_1)
     fig = go.Figure(data=[go.Surface(z=data, x=x, y=y, colorscale='Temps')])
     fig.update_layout(scene_aspectmode='manual',
-                      scene_aspectratio=dict(x=1, y=1, z=.1))
+                      scene_aspectratio=dict(x=1, y=1, z=1))
     fig.update_traces(contours_z=dict(show=True, usecolormap=True,
                                       highlightcolor="limegreen", project_z=True))
     st.plotly_chart(fig)
