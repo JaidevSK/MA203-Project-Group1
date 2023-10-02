@@ -255,27 +255,16 @@ masterlist.append(np.array(lis))
 
 
 
-# df3=pd.DataFrame({
-#     'x':[1,2,3,4,5],
-#     'y':[10,20,30,20,10],
-#     'z':[[5,4,3,2,1]] * 5
-# })
+import plotly.graph_objects as go
+import numpy as np
 
-# trace0= Surface(x=df3['x'], y=df3['y'], z=df3['z'])
-# data=[trace0]
-# fig=dict(data=data)
-# plot(fig)
+# Example 2D NumPy array
+data = np.array(masterlist)
 
-# import plotly.graph_objects as go
-# import numpy as np
-
-# # Example 2D NumPy array
-# data = np.array(masterlist)
-
-# heatmap_trace = go.Heatmap(z=data, colorscale = 'Hot')
-# layout = go.Layout(title='Heatmap Plot', xaxis=dict(title='X-axis'), yaxis=dict(title='Y-axis'), width=800, height=800)
-# fig = go.Figure(data=[heatmap_trace], layout=layout)
-# st.plotly_chart(fig)
+heatmap_trace = go.Heatmap(z=data, colorscale = 'Hot')
+layout = go.Layout(title='Heatmap Plot', xaxis=dict(title='X-axis'), yaxis=dict(title='Y-axis'), width=800, height=800)
+fig = go.Figure(data=[heatmap_trace], layout=layout)
+st.plotly_chart(fig)
 
 # st.write("\n\n")
 
