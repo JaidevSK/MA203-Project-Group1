@@ -253,8 +253,6 @@ lis = [Tf]*(n+2)
 masterlist.append(np.array(lis))
 # print(masterlist)
 
-
-
 import plotly.graph_objects as go
 import numpy as np
 
@@ -266,11 +264,8 @@ layout = go.Layout(title='Heatmap Plot', xaxis=dict(title='X-axis'), yaxis=dict(
 fig = go.Figure(data=[heatmap_trace], layout=layout)
 st.plotly_chart(fig)
 
-# st.write("\n\n")
 
-# x, y = np.linspace(0, n, 0), np.linspace(0, n, 1)
-# z = data
-# fig1 = go.Figure(data=[go.Surface(z=z, x=x, y=y, colorscale='Temps')])
-# st.plotly_chart(fig1)
-# #############################################################################################################################################################
+
+
+#############################################################################################################################################################
 
