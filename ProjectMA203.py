@@ -253,22 +253,35 @@ lis = [Tf]*(n+2)
 masterlist.append(np.array(lis))
 # print(masterlist)
 
-import plotly.graph_objects as go
-import numpy as np
 
-# Example 2D NumPy array
-data = np.array(masterlist)
 
-heatmap_trace = go.Heatmap(z=data, colorscale = 'Hot')
-layout = go.Layout(title='Heatmap Plot', xaxis=dict(title='X-axis'), yaxis=dict(title='Y-axis'), width=800, height=800)
-fig = go.Figure(data=[heatmap_trace], layout=layout)
-st.plotly_chart(fig)
+# df3=pd.DataFrame({
+#     'x':[1,2,3,4,5],
+#     'y':[10,20,30,20,10],
+#     'z':[[5,4,3,2,1]] * 5
+# })
 
-st.write("\n\n")
+# trace0= Surface(x=df3['x'], y=df3['y'], z=df3['z'])
+# data=[trace0]
+# fig=dict(data=data)
+# plot(fig)
 
-x, y = np.linspace(0, n, 0), np.linspace(0, n, 1)
-z = data
-fig1 = go.Figure(data=[go.Surface(z=z, x=x, y=y, colorscale='Temps')])
-st.plotly_chart(fig1)
-#############################################################################################################################################################
+# import plotly.graph_objects as go
+# import numpy as np
+
+# # Example 2D NumPy array
+# data = np.array(masterlist)
+
+# heatmap_trace = go.Heatmap(z=data, colorscale = 'Hot')
+# layout = go.Layout(title='Heatmap Plot', xaxis=dict(title='X-axis'), yaxis=dict(title='Y-axis'), width=800, height=800)
+# fig = go.Figure(data=[heatmap_trace], layout=layout)
+# st.plotly_chart(fig)
+
+# st.write("\n\n")
+
+# x, y = np.linspace(0, n, 0), np.linspace(0, n, 1)
+# z = data
+# fig1 = go.Figure(data=[go.Surface(z=z, x=x, y=y, colorscale='Temps')])
+# st.plotly_chart(fig1)
+# #############################################################################################################################################################
 
