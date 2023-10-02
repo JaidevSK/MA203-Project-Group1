@@ -199,6 +199,8 @@ liquid_input = st.sidebar.slider("Input temperature of the Coolant", 0, 100, 50)
 liquid_output = st.sidebar.slider("Vaapour Temperature of the Coolant", 0, 100, 75)
 
 
+vistype = st.radio("Select the type of Visualisation", ["2D Heatmaps", "3D Surface Plots"])
+
 # Parameters
 i = st.sidebar.slider("Select the current Value", 1, 10)
 r = st.sidebar.slider("Select the Resistance Value", 1, 100)
@@ -284,7 +286,19 @@ masterlist.append(np.array(lis))
 # Example 2D NumPy array
 data = np.array(masterlist)
 
-heatmap_trace = go.Heatmap(z=data, colorscale='Bluered')
-layout = go.Layout(title='Heatmap Plot', xaxis=dict(title='X-axis'), yaxis=dict(title='Y-axis'), width=800, height=800)
-fig = go.Figure(data=[heatmap_trace], layout=layout)
-st.plotly_chart(fig)
+if vistype == '2D Heatmaps':
+    heatmap_trace = go.Heatmap(z=data, colorscale='Hot')
+    layout = go.Layout(title='Heatmap Plot', xaxis=dict(title='X-axis'), yaxis=dict(title='Y-axis'), width=800, height=800)
+    fig = go.Figure(data=[heatmap_trace], layout=layout)
+    st.plotly_chart(fig)
+
+else:
+    sh_0, sh_1 = data.shape
+    x, y = np.linspace(0, 1, sh_0), np.linspace(0, 1, sh_1)
+    fig = go.Figure(data=[go.Surface(z=data, x=x, y=y, colorscale='Temps')])
+    fig.update_layout(scene_aspectmode='manual',
+                      scene_aspectratio=dict(x=1, y=1, z=.1))
+    fig.update_traces(contours_z=dict(show=True, usecolormap=True,
+                                      highlightcolor="limegreen", project_z=True))
+    st.plotly_chart(fig)
+
