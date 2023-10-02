@@ -191,7 +191,9 @@ def shooting_for_temp_distri_in_heatpipe(h, Ta, T0, Tf, x0, xfinal, delta_x, z01
 #########################################################################################################################################################
 
 st.header("MA 203 Project Group 1")
-st.title("Modelling the heating in an IC with multiple heat transfer mechanisms using Numerical Methods")
+st.title("Modelling the heating in an IC with multiple heat transfer mechanisms using Numerical Methods (LU Decomposition)")
+st.link_button("Go to Liebmann Method", "https://ma203-project-group1-z2rfwvchbylcckbohc7jvj.streamlit.app/")
+st.link_button("Go to the Project Report", "")
 st.sidebar.title("User Inputs")
 liquid_input = st.sidebar.slider("Input temperature of the Coolant", 0, 100, 50)
 liquid_output = st.sidebar.slider("Vaapour Temperature of the Coolant", 0, 100, 75)
