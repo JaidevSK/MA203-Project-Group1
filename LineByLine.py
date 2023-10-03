@@ -210,7 +210,7 @@ h = 0.01 # For water flowing in metal tubes (coefficient of heat transfer)
 Ta = st.sidebar.slider("Select the Surrounding Temperature", 15, 35)
 
 # Initial temp. conditions
-T0 = st.sidebar.slider("Select the Heatsink Temperature", 25, 35)
+T0 = st.sidebar.slider("Select the Heatsink Temperature", 10, 35)
 Tf = i**2*r*t/c # At x = xfinal
 T1 = Tf
 
