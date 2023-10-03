@@ -202,6 +202,7 @@ liquid_output = st.sidebar.slider("Vaapour Temperature of the Coolant", 0, 100, 
 # Parameters
 i = st.sidebar.slider("Select the current Value", 1, 10)
 r = st.sidebar.slider("Select the Resistance Value", 1, 100)
+c = st.sidebar.slider("Select the C Value for the Power source", 1, 100)
 vistype = st.radio("Select the type of Visualisation", ["2D Heatmaps", "3D Surface Plots"])
 t = st.slider("Select the time duration", 1, 100)
 h = 0.01 # For water flowing in metal tubes (coefficient of heat transfer)
@@ -209,7 +210,7 @@ Ta = st.sidebar.slider("Select the Surrounding Temperature", 15, 35)
 
 # Initial temp. conditions
 T0 = st.sidebar.slider("Select the Heatsink Temperature", 25, 35)
-Tf = i**2*r*t # At x = xfinal
+Tf = i**2*r*t/c # At x = xfinal
 T1 = Tf
 
 # Pipe length and dist. intervals
