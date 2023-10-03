@@ -204,7 +204,6 @@ vistype = st.radio("Select the type of Visualisation", ["2D Heatmaps", "3D Surfa
 i = st.sidebar.slider("Select the current Value", 1, 10)
 r = st.sidebar.slider("Select the Resistance Value", 1, 100)
 c = st.sidebar.slider("Select the C Value for the Power source", 1, 100)
-vistype = st.radio("Select the type of Visualisation", ["2D Heatmaps", "3D Surface Plots"])
 t = st.slider("Select the time duration", 1, 100)
 h = 0.01 # For water flowing in metal tubes (coefficient of heat transfer)
 Ta = st.sidebar.slider("Select the Surrounding Temperature", 15, 35)
