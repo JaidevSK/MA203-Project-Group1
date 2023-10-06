@@ -191,8 +191,9 @@ def shooting_for_temp_distri_in_heatpipe(h, Ta, T0, Tf, x0, xfinal, delta_x, z01
 
 #########################################################################################################################################################
 
-st.header("MA 203 Project Group 1")
-st.title("Modelling the heating in an IC with multiple heat transfer mechanisms using Numerical Methods (Liebmann's Method)")
+st.header("MA 203 Numerical Methods")
+st.title("Analysis and Visualisation of Temperature Distribution in an IC Using Numerical Methods")
+st.subheader('Using Liebmann's Method (Line-by-Line Gauss Seidel Solver)', divider='rainbow')
 st.link_button("Go to LU Decomposition Method", "https://ma203-project-group1-49zu9pkqddsqvymnpceqrj.streamlit.app/")
 st.link_button("Go to the Project Report", "https://drive.google.com/file/d/1PQsmAGnwZMASaaRNJnC9tU_-KDT11saF/view?usp=sharing")
 st.sidebar.title("User Inputs")
