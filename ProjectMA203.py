@@ -193,23 +193,23 @@ def shooting_for_temp_distri_in_heatpipe(h, Ta, T0, Tf, x0, xfinal, delta_x, z01
 st.header("MA 203 Project Group 1")
 st.title("Modelling the heating in an IC with multiple heat transfer mechanisms using Numerical Methods (LU Decomposition)")
 st.link_button("Go to Liebmann Method", "https://ma203-project-group1-z2rfwvchbylcckbohc7jvj.streamlit.app/")
-st.link_button("Go to the Project Report", "")
+st.link_button("Go to the Project Report", "https://drive.google.com/file/d/1PQsmAGnwZMASaaRNJnC9tU_-KDT11saF/view?usp=sharing")
 st.sidebar.title("User Inputs")
 liquid_input = st.sidebar.slider("Input temperature of the Coolant", 0, 100, 50)
-liquid_output = st.sidebar.slider("Vaapour Temperature of the Coolant", 0, 100, 75)
+liquid_output = st.sidebar.slider("Vapour Temperature of the Coolant", 0, 100, 75)
 
 
 # Parameters
-i = st.sidebar.slider("Select the current Value", 1, 10)
-r = st.sidebar.slider("Select the Resistance Value", 1, 100)
-c = st.sidebar.slider("Select the C Value for the Power source", 1, 100)
+i = st.sidebar.slider("Select the Value of Current", 1, 10)
+r = st.sidebar.slider("Select the Value of Resistance", 1, 100)
+c = st.sidebar.slider("Select the Heat Capacity Value for the Power Source", 1, 100)
 vistype = st.radio("Select the type of Visualisation", ["2D Heatmaps", "3D Surface Plots"])
-t = st.slider("Select the time duration", 1, 100)
+t = st.slider("Select the Instant of Time", 1, 100)
 h = 0.01 # For water flowing in metal tubes (coefficient of heat transfer)
 Ta = st.sidebar.slider("Select the Surrounding Temperature", 15, 35)
 
 # Initial temp. conditions
-T0 = st.sidebar.slider("Select the Heatsink Temperature", 25, 35)
+T0 = st.sidebar.slider("Select the Heat Sink Temperature", 25, 35)
 Tf = i**2*r*t/c # At x = xfinal
 T1 = Tf
 
@@ -220,7 +220,7 @@ delta_x = 0.1
 
 z01 = 10
 z02 = 20
-n = st.slider("Select the Number of transistors in a row", 3, 13, 3)
+n = st.slider("Select the Number of Transistors in a Row", 3, 13, 3)
 
 ###########################################################################################################################################################
 
